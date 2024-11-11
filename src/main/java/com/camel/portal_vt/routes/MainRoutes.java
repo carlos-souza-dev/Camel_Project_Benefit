@@ -1,0 +1,56 @@
+package com.camel.portal_vt.routes;
+
+import com.camel.portal_vt.dtos.UserDTO;
+import com.camel.portal_vt.processors.HeaderConfigProcessor;
+import com.camel.portal_vt.processors.ResponseSaveUserProcessor;
+import com.camel.portal_vt.processors.SaveUserProcessor;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.http.HttpMethods;
+import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.model.rest.RestBindingMode;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MainRoutes extends RouteBuilder {
+
+    private final Environment env;
+
+    public MainRoutes(Environment env) {
+        this.env = env;
+    }
+
+    @Override
+    public void configure() {
+        // Configuração REST do Camel
+        restConfiguration()
+                .component("servlet")
+//                .contextPath("calme-portal-vt/api")   // Define o caminho base para a API
+                .contextPath(this.env.getProperty("camel.spring.application.name"))
+                .component("netty-http")
+                .host("localhost")
+                .port(this.env.getProperty("camel.server.port"))
+                .bindingMode(RestBindingMode.json);  // Ativa a resposta para JSON
+//                .dataFormatProperty("prettyPrint", "true");
+
+//      Salvar usuário - POST
+        rest().path("/user")
+                .post("/")
+                .type(UserDTO.class)
+                .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
+                .to("direct:saveUserRoute");
+
+        from("direct:saveUserRoute")
+                .routeId("Route - Save User")
+                .process(new SaveUserProcessor())
+                .setHeader("Content-Type", constant("application/json"))
+                .log("Send to rest Api java-portal-vt/api")
+                .log("Request body to Api ${body}")
+                .marshal().json()
+                .process(new HeaderConfigProcessor(HttpMethods.POST))
+                .to("http://localhost:5000/java-portal-vt/api/user")
+                .log("Response Api ${body}")
+                .unmarshal().json(JsonLibrary.Jackson, UserDTO.class)
+                .process(new ResponseSaveUserProcessor());
+    }
+}
