@@ -39,19 +39,6 @@ public class MainRoutes extends RouteBuilder {
                 .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
                 .to("direct:saveUserRoute");
 
-        from("direct:saveUserRoute")
-                .routeId("Route - Save User")
-                .process(new SaveUserProcessor())
-                .setHeader("Content-Type", constant("application/json"))
-                .log("Send to rest Api java-portal-vt/api")
-                .log("Request body to Api ${body}")
-                .marshal().json()
-                .process(new HeaderConfigProcessor(HttpMethods.POST))
-                .to("http://localhost:5000/java-portal-vt/api/user")
-                .log("Response Api ${body}")
-                .unmarshal().json(JsonLibrary.Jackson, UserDTO.class)
-                .process(new ResponseSaveUserProcessor());
-
         rest().path("/route")
                 .get("/")
 //                .type(RouteInformation.class)
