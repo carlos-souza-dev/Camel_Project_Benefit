@@ -21,6 +21,7 @@ public class HeaderConfigProcessor implements Processor {
         exchange.getIn().removeHeader(Exchange.HTTP_PATH);
         exchange.getIn().setHeader(Exchange.HTTP_QUERY, "bridgeEndpoint=true");
         exchange.getIn().setHeader(Exchange.HTTP_URI, "http://localhost:5000/java-portal-vt/api/user");
-        System.out.println("OK");
+
+        System.out.println("Headers java-portal-vt configurados: " + Exchange.HTTP_URI);
     }
 }
