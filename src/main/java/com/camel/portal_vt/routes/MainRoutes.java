@@ -41,19 +41,8 @@ public class MainRoutes extends RouteBuilder {
 
         rest().path("/route")
                 .get("/")
-//                .type(RouteInformation.class)
                 .produces("application/json")
-                .to("direct:routeInformation");
+                .to("direct:transportsInfoRoute");
 
-        from("direct:routeInformation")
-                .routeId("Route - Route information")
-                .setHeader("Content-Type", constant("application/json"))
-                .log("Request to rest maps.googleapis.com/maps/api/directions")
-                .log("Request body to Api ${body}")
-                .process(new HeaderConfigGoogleApiProcessor(HttpMethods.GET, this.env))
-                .to("https://maps.googleapis.com/maps/api/directions/json")
-                .log("Response Api ${body}")
-                .unmarshal().json(JsonLibrary.Jackson, RouteInformation.class)
-                .process(new ResponseRouteInformationProcessor());
     }
 }
