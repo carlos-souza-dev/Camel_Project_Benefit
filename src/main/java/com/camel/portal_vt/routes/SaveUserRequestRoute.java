@@ -1,7 +1,7 @@
 package com.camel.portal_vt.routes;
 
 import com.camel.portal_vt.dtos.UserDTO;
-import com.camel.portal_vt.processors.HeaderConfigProcessor;
+import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
 import com.camel.portal_vt.processors.ResponseSaveUserProcessor;
 import com.camel.portal_vt.processors.SaveUserProcessor;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,11 +17,10 @@ public class SaveUserRequestRoute extends RouteBuilder {
         from("direct:saveUserRoute")
                 .routeId("Route - Save User")
                 .process(new SaveUserProcessor())
-                .setHeader("Content-Type", constant("application/json"))
                 .log("Send to rest Api java-portal-vt/api")
                 .marshal().json()
-                .process(new HeaderConfigProcessor(HttpMethods.POST))
-                .to("http://localhost:5000/java-portal-vt/api/user")
+                .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
+                .to("http://localhost:5000/java-portal-vt/api/user?bridgeEndpoint=true")
                 .unmarshal().json(JsonLibrary.Jackson, UserDTO.class)
                 .process(new ResponseSaveUserProcessor());
     }

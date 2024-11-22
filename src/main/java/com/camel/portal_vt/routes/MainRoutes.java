@@ -37,7 +37,16 @@ public class MainRoutes extends RouteBuilder {
                 .post("/")
                 .type(UserDTO.class)
                 .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
-                .to("direct:saveUserRoute");
+                .to("direct:saveUserRoute")
+
+                .get("/{userName}/exists")
+                .produces("")
+                .to("direct:getUserRoute")
+
+                .post("/login")
+                .type(UserAuthDTO.class)
+                .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
+                .to("direct:authenticationRoute");
 
         rest().path("/route")
                 .get("/")

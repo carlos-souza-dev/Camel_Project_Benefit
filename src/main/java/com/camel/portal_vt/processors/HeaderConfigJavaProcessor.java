@@ -4,11 +4,13 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.http.HttpMethods;
 
-public class HeaderConfigProcessor implements Processor {
+import static org.apache.camel.language.constant.ConstantLanguage.constant;
+
+public class HeaderConfigJavaProcessor implements Processor {
 
     private final HttpMethods httpMethod;
 
-    public HeaderConfigProcessor(HttpMethods httpMethod){
+    public HeaderConfigJavaProcessor(HttpMethods httpMethod){
         this.httpMethod = httpMethod;
     }
 
@@ -19,8 +21,8 @@ public class HeaderConfigProcessor implements Processor {
         exchange.getIn().setHeader("Accept", "application/json");
         exchange.getIn().setHeader(Exchange.HTTP_METHOD, this.httpMethod);
         exchange.getIn().removeHeader(Exchange.HTTP_PATH);
-        exchange.getIn().setHeader(Exchange.HTTP_QUERY, "bridgeEndpoint=true");
-        exchange.getIn().setHeader(Exchange.HTTP_URI, "http://localhost:5000/java-portal-vt/api/user");
+//        exchange.getIn().setHeader(Exchange.HTTP_QUERY, "bridgeEndpoint=true");
+//        exchange.getIn().setHeader(Exchange.HTTP_URI, "http://localhost:5000/java-portal-vt/api/");
 
         System.out.println("Headers java-portal-vt configurados: " + Exchange.HTTP_URI);
     }
