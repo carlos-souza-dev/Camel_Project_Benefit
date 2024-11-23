@@ -1,11 +1,9 @@
 package com.camel.portal_vt.routes;
 
+import com.camel.portal_vt.dtos.UserAuthDTO;
 import com.camel.portal_vt.dtos.UserDTO;
 import com.camel.portal_vt.dtos.google.RouteInformation;
-import com.camel.portal_vt.processors.*;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.http.HttpMethods;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -33,7 +31,7 @@ public class MainRoutes extends RouteBuilder {
 //                .dataFormatProperty("prettyPrint", "true");
 
 //      Salvar usuário - POST
-        rest().path("/user")
+        rest("/user")
                 .post("/")
                 .type(UserDTO.class)
                 .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
