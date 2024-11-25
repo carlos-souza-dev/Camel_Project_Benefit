@@ -1,7 +1,6 @@
 package com.camel.portal_vt.processors;
 
-import com.camel.portal_vt.dtos.ErrorTemplate;
-import com.camel.portal_vt.dtos.ReturnStatus;
+import com.camel.portal_vt.dtos.ErrorTemplateDTO;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ public class BackEndErrorProcessor implements Processor {
 
         String mensage =  exchange.getIn().getBody(String.class);
 
-        ErrorTemplate errorTemplate = new ErrorTemplate();
+        ErrorTemplateDTO errorTemplate = new ErrorTemplateDTO();
         errorTemplate.set_erroCode(HttpStatus.NOT_FOUND.value());
         errorTemplate.set_datails(mensage);
         errorTemplate.set_httpStatus("NOT_FOUND");

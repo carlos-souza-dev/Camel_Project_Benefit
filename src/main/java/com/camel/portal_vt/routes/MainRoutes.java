@@ -2,7 +2,7 @@ package com.camel.portal_vt.routes;
 
 import com.camel.portal_vt.dtos.UserAuthDTO;
 import com.camel.portal_vt.dtos.UserDTO;
-import com.camel.portal_vt.dtos.google.RouteInformation;
+import com.camel.portal_vt.dtos.UserRegisterDTO;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
@@ -30,11 +30,10 @@ public class MainRoutes extends RouteBuilder {
                 .bindingMode(RestBindingMode.json);  // Ativa a resposta para JSON
 //                .dataFormatProperty("prettyPrint", "true");
 
-//      Salvar usuário - POST
         rest("/user")
                 .post("/")
                 .type(UserDTO.class)
-                .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
+                .produces("application/json")
                 .to("direct:saveUserRoute")
 
                 .get("/{userName}/exists")
@@ -43,8 +42,13 @@ public class MainRoutes extends RouteBuilder {
 
                 .post("/login")
                 .type(UserAuthDTO.class)
-                .produces("application/json") // Define o tipo de conteúdo de resposta como JSON
-                .to("direct:authenticationRoute");
+                .produces("application/json")
+                .to("direct:authenticationRoute")
+
+                .post("/register")
+                .type(UserRegisterDTO.class)
+                .produces("application/json")
+                .to("direct:registerRoute");
 
         rest().path("/route")
                 .get("/")

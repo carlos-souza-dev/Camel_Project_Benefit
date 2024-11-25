@@ -1,0 +1,27 @@
+package com.camel.portal_vt.routes;
+
+import com.camel.portal_vt.dtos.ReturnStatusDTO;
+import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
+import com.camel.portal_vt.processors.ResponseRegisterUserProcessor;
+import com.camel.portal_vt.processors.ResquestRegisterUserProcessor;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.http.HttpMethods;
+import org.apache.camel.model.dataformat.JsonLibrary;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RegisterUserRoute extends RouteBuilder {
+
+    @Override
+    public void configure() throws Exception {
+        from("direct:registerRoute")
+                .routeId("Route - Register User")
+                .process(new ResquestRegisterUserProcessor())
+                .marshal().json()
+                .log("Send to rest Api java-portal-vt/api/user/register")
+                .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
+                .to("http://localhost:5000/java-portal-vt/api/user/register?bridgeEndpoint=true")
+                .unmarshal().json(JsonLibrary.Jackson, ReturnStatusDTO.class)
+                .process(new ResponseRegisterUserProcessor());
+    }
+}

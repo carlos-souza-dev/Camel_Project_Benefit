@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-public class SaveUserProcessor implements Processor {
+public class RequestSaveUserProcessor implements Processor {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
