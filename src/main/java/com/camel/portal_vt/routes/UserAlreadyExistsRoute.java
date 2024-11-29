@@ -29,7 +29,7 @@ public class UserAlreadyExistsRoute extends RouteBuilder {
                     .log("Unhandled HTTP error occurred.")
                     .setBody(simple("Error: ${exception.message}"))
                     .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                    .process(new BackEndErrorProcessor())
+                    .process(new ResponseUserExistsRoute())
                 .end();
     }
 }
