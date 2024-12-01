@@ -25,11 +25,11 @@ public class SaveUserRequestRoute extends RouteBuilder {
                 .doTry()
                     .to("http://localhost:5000/java-portal-vt/api/user?bridgeEndpoint=true")
                     .unmarshal().json(JsonLibrary.Jackson, UserDTO.class)
+                    .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                     .process(new ResponseSaveUserProcessor())
                 .doCatch(Exception.class)
                     .log("Unhandled HTTP error occurred.")
                     .setBody(simple("Error: ${exception.message}"))
-                    .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                     .process(new BackEndErrorProcessor());
 
     }
