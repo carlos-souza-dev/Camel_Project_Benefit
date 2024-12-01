@@ -11,6 +11,6 @@ public record Address(
         String state,
         String uf,
         String cep,
-        Date dateCreated,
-        Date dateUpdated
+        String dateCreated,
+        String dateUpdated
 ) {}
