@@ -2,7 +2,6 @@ package com.camel.portal_vt.routes;
 
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
 import com.camel.portal_vt.processors.ResponseAuthenticationUserProcessor;
-import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
 import org.springframework.stereotype.Component;
