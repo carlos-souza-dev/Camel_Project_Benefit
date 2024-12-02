@@ -1,12 +1,21 @@
 package com.camel.portal_vt.dtos;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-public record UserDTO (
-        String userId,
-        String name,
-        String userName,
-        String password,
-        String dateCreated,
-        String dateUpdated){
+@Getter
+@Setter
+public class UserDTO {
+
+    String userId;
+
+    String name;
+
+    String userName;
+
+    String password;
+
+    String dateCreated;
+
+    String dateUpdated;
 }
