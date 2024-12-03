@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReturnStatusDTO {
+public class  ReturnStatusDTO {
 
     private Integer code;
     private String description;
