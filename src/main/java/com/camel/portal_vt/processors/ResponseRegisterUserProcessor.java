@@ -1,5 +1,6 @@
 package com.camel.portal_vt.processors;
 
+import com.camel.portal_vt.dtos.ReturnStatusDTO;
 import com.camel.portal_vt.dtos.UserRegisterResponseDTO;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -7,8 +8,13 @@ import org.apache.camel.Processor;
 public class ResponseRegisterUserProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
-        UserRegisterResponseDTO userRegister = exchange.getIn().getBody(UserRegisterResponseDTO.class);
+        String message = exchange.getIn().getBody(String.class);
+        ReturnStatusDTO returnStatus = new ReturnStatusDTO();
 
-        exchange.getIn().setBody(userRegister);
+        returnStatus.setCode(exchange.getProperty(Exchange.HTTP_RESPONSE_CODE, Integer.class));
+        returnStatus.setDescription(message);
+        returnStatus.setHttpStatus("CREATED");
+
+        exchange.getIn().setBody(returnStatus);
     }
 }
