@@ -1,5 +1,6 @@
 package com.camel.portal_vt.routes;
 
+import com.camel.portal_vt.dtos.ReturnStatusDTO;
 import com.camel.portal_vt.dtos.UserRegisterResponseDTO;
 import com.camel.portal_vt.processors.BackEndErrorProcessor;
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
@@ -24,12 +25,12 @@ public class RegisterUserRoute extends RouteBuilder {
                 .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
                 .doTry()
                     .to("http://localhost:5000/java-portal-vt/api/user/register?bridgeEndpoint=true")
-                    .unmarshal().json(JsonLibrary.Jackson, UserRegisterResponseDTO.class)
+//                    .unmarshal().json(JsonLibrary.Jackson, String.class)
                     .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                     .process(new ResponseRegisterUserProcessor())
                 .doCatch(Exception.class)
-                    .log("Unhandled HTTP error occurred.")
-                    .setBody(simple("Error: ${exception.message}"))
+                    .log("Unhandled HTTP error occurred on route 'registerRoute'")
+                    .setBody(simple("Error: ${exception}"))
                     .process(new BackEndErrorProcessor());
     }
 }

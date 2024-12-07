@@ -10,8 +10,9 @@ public class ResponseRegisterUserProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         String message = exchange.getIn().getBody(String.class);
         ReturnStatusDTO returnStatus = new ReturnStatusDTO();
+        Integer responseCode = exchange.getIn().getHeader("CamelHttpResponseCode", Integer.class);
 
-        returnStatus.setCode(exchange.getProperty(Exchange.HTTP_RESPONSE_CODE, Integer.class));
+        returnStatus.setCode(responseCode);
         returnStatus.setDescription(message);
         returnStatus.setHttpStatus("CREATED");
 
