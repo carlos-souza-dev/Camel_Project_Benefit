@@ -1,15 +1,10 @@
 package com.camel.portal_vt.processors;
 
-import com.camel.portal_vt.dtos.ErrorTemplateDTO;
-import com.camel.portal_vt.dtos.ResponseBodyDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.camel.portal_vt.dtos.ReturnStatusDTO;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.http.base.HttpOperationFailedException;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.http.HttpStatus;
-
-import java.util.Map;
 
 public class BackEndErrorProcessor implements Processor {
 
@@ -17,17 +12,16 @@ public class BackEndErrorProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         HttpOperationFailedException exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, HttpOperationFailedException.class);
+        String message = exception.getResponseBody();
+        Integer responseCode = exception.getStatusCode();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ResponseBodyDTO responseBodyDTO = objectMapper.readValue(exception.getResponseBody(), ResponseBodyDTO.class);
+        ReturnStatusDTO returnStatus = new ReturnStatusDTO();
 
-        ErrorTemplateDTO errorTemplate = new ErrorTemplateDTO();
-        errorTemplate.set_erroCode(responseBodyDTO.getStatus());
-        errorTemplate.set_datails(responseBodyDTO.getMessage());
-        errorTemplate.set_httpStatus(responseBodyDTO.getError());
-        errorTemplate.set_message("error occurred request api rest '..." + responseBodyDTO.getPath() + "'");
+        returnStatus.setCode(responseCode);
+        returnStatus.setDescription(message);
+        returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
 
-        exchange.getMessage().setBody(errorTemplate);
-        exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseBodyDTO.getStatus());
+        exchange.getMessage().setBody(returnStatus);
+        exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseCode);
     }
 }
