@@ -13,16 +13,17 @@ public class ResponseUserExistsRoute implements Processor {
     public void process(Exchange exchange){
         String message = exchange.getIn().getBody(String.class);
         HttpOperationFailedException exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, HttpOperationFailedException.class);
+        Integer responseCode = exchange.getIn().getHeader("CamelHttpResponseCode", Integer.class);
         ReturnStatusDTO returnStatus = new ReturnStatusDTO();
 
         if(exception != null && exception.getStatusCode() == 404){
             returnStatus.setCode(HttpStatus.OK.value());
             returnStatus.setDescription(message);
-            returnStatus.setHttpStatus("NOT_FOUND");
+            returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
         } else {
             returnStatus.setCode(HttpStatus.OK.value());
             returnStatus.setDescription(message);
-            returnStatus.setHttpStatus("SUCCESS");
+            returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
         }
 
         exchange.getMessage().setBody(returnStatus);

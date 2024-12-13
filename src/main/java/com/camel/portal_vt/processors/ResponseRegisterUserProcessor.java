@@ -1,9 +1,9 @@
 package com.camel.portal_vt.processors;
 
 import com.camel.portal_vt.dtos.ReturnStatusDTO;
-import com.camel.portal_vt.dtos.UserRegisterResponseDTO;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.http.HttpStatus;
 
 public class ResponseRegisterUserProcessor implements Processor {
     @Override
@@ -14,7 +14,7 @@ public class ResponseRegisterUserProcessor implements Processor {
 
         returnStatus.setCode(responseCode);
         returnStatus.setDescription(message);
-        returnStatus.setHttpStatus("CREATED");
+        returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
 
         exchange.getIn().setBody(returnStatus);
     }
