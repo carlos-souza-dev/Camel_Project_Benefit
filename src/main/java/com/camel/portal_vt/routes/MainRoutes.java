@@ -8,11 +8,13 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPTCAMPAIGNROUTE;
+
 @Component
 public class MainRoutes extends RouteBuilder {
 
     private final Environment env;
-
+    private static final String DIRECT = "direct:";
     public MainRoutes(Environment env) {
         this.env = env;
     }
@@ -34,26 +36,32 @@ public class MainRoutes extends RouteBuilder {
                 .post("/")
                 .type(UserDTO.class)
                 .produces("application/json")
-                .to("direct:saveUserRoute")
+                .to(DIRECT+"saveUserRoute")
 
                 .get("/{userName}/exists")
                 .produces("")
-                .to("direct:getUserRoute")
+                .to(DIRECT+"getUserRoute")
 
                 .post("/login")
                 .type(UserAuthDTO.class)
                 .produces("application/json")
-                .to("direct:authenticationRoute")
+                .to(DIRECT+"authenticationRoute")
 
                 .post("/register")
                 .type(UserRegisterDTO.class)
                 .produces("application/json")
-                .to("direct:registerRoute");
+                .to(DIRECT+"registerRoute")
+                
+                .put("/{userName}")
+                .type(UserDTO.class)
+                .produces("application/json")
+                        .to(DIRECT+ACCEPTCAMPAIGNROUTE);
+                
 
         rest().path("/route")
                 .get("/")
                 .produces("application/json")
-                .to("direct:transportsInfoRoute");
+                .to(DIRECT+"transportsInfoRoute");
 
     }
 }
