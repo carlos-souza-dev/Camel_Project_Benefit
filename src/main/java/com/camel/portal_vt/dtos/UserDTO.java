@@ -1,5 +1,6 @@
 package com.camel.portal_vt.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,8 @@ public class UserDTO {
     String userName;
 
     String password;
+
+    String acceptCampaign;
 
     String dateCreated;
 
