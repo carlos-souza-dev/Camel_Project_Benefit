@@ -4,8 +4,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.http.HttpMethods;
 
-import static org.apache.camel.language.constant.ConstantLanguage.constant;
-
 public class HeaderConfigJavaProcessor implements Processor {
 
     private final HttpMethods httpMethod;

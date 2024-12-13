@@ -1,14 +1,10 @@
 package com.camel.portal_vt.routes;
 
-//import com.camel.portal_vt.processors.GetUserResponseProcessor;
-import com.camel.portal_vt.processors.BackEndErrorProcessor;
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
 import com.camel.portal_vt.processors.ResponseUserExistsRoute;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
-import org.apache.camel.http.base.HttpOperationFailedException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component

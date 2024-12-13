@@ -1,7 +1,5 @@
 package com.camel.portal_vt.routes;
 
-import com.camel.portal_vt.dtos.ReturnStatusDTO;
-import com.camel.portal_vt.dtos.UserRegisterResponseDTO;
 import com.camel.portal_vt.processors.BackEndErrorProcessor;
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
 import com.camel.portal_vt.processors.ResponseRegisterUserProcessor;
@@ -9,7 +7,6 @@ import com.camel.portal_vt.processors.ResquestRegisterUserProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.stereotype.Component;
 
 @Component

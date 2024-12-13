@@ -1,7 +1,5 @@
 package com.camel.portal_vt.dtos;
 
-import java.util.Date;
-
 public record Address(
         long addressId,
         String street,
