@@ -12,7 +12,7 @@ public class BackEndErrorProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         HttpOperationFailedException exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, HttpOperationFailedException.class);
-        String message = exception.getResponseBody();
+        String message = exception.getResponseHeaders().get("message") == null ? exception.getResponseBody() : exception.getResponseHeaders().get("message");
         Integer responseCode = exception.getStatusCode();
 
         ReturnStatusDTO returnStatus = new ReturnStatusDTO();

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AcceptCampaignRoute extends RouteBuilder {
 
-    public static final String ACCEPTCAMPAIGNROUTE = "acceptCampaignRoute";
+    public static final String ACCEPT_CAMPAIGN_ROUTE = "acceptCampaignRoute";
 
     @Override
     public void configure() throws Exception {

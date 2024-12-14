@@ -8,8 +8,8 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPTCAMPAIGNROUTE;
-import static com.camel.portal_vt.routes.GetUserRoute.GETUSERROUTE;
+import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
+import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
 
 @Component
 public class MainRoutes extends RouteBuilder {
@@ -33,15 +33,16 @@ public class MainRoutes extends RouteBuilder {
                 .bindingMode(RestBindingMode.json);  // Ativa a resposta para JSON
 //                .dataFormatProperty("prettyPrint", "true");
 
+        String GetUserRoute;
         rest("/user")
                 .get("/{userName}")
                 .produces("")
-                .to(DIRECT+"getUserRoute")
+                .to(DIRECT+ GET_USER_ROUTE)
 
                 .post("/")
                 .type(UserDTO.class)
                 .produces("application/json")
-                .to(DIRECT+GETUSERROUTE)
+                .to(DIRECT+"saveUserRoute")
 
                 .get("/{userName}/exists")
                 .produces("")
@@ -60,7 +61,7 @@ public class MainRoutes extends RouteBuilder {
                 .put("/{userName}")
                 .type(UserDTO.class)
                 .produces("application/json")
-                        .to(DIRECT+ACCEPTCAMPAIGNROUTE);
+                        .to(DIRECT+ ACCEPT_CAMPAIGN_ROUTE);
                 
 
         rest().path("/route")
