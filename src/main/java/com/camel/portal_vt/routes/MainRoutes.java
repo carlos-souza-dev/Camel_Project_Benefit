@@ -40,7 +40,7 @@ public class MainRoutes extends RouteBuilder {
 
                 .get("/{userName}/exists")
                 .produces("")
-                .to(DIRECT+"getUserRoute")
+                .to(DIRECT+"userAlreadyExistsRoute")
 
                 .post("/login")
                 .type(UserAuthDTO.class)

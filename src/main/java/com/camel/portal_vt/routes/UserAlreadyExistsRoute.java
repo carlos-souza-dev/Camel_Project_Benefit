@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class UserAlreadyExistsRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        from("direct:getUserRoute")
-                .routeId("Route - Get User")
+        from("direct:userAlreadyExistsRoute")
+                .routeId("Route - Get User if exisis")
                 .log("Header ${header.userName}")
                 .setHeader("Content-Type", constant("application/json"))
                 .log("Send to rest Api java-portal-vt/api")
