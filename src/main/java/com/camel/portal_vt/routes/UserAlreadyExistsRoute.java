@@ -1,7 +1,8 @@
 package com.camel.portal_vt.routes;
 
+import com.camel.portal_vt.processors.BackEndErrorProcessor;
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
-import com.camel.portal_vt.processors.ResponseUserExistsRoute;
+import com.camel.portal_vt.processors.ResponseUserExistsProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
@@ -20,12 +21,12 @@ public class UserAlreadyExistsRoute extends RouteBuilder {
                 .log("Updated headers configs")
                 .doTry()
                     .toD("http://localhost:5000/java-portal-vt/api/user/${header.userName}/exists?bridgeEndpoint=true")
-                    .process(new ResponseUserExistsRoute())
+                    .process(new ResponseUserExistsProcessor())
                 .doCatch(Exception.class)
                     .log("Unhandled HTTP error occurred.")
                     .setBody(simple("Error: ${exception.message}"))
                     .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                    .process(new ResponseUserExistsRoute())
+                    .process(new BackEndErrorProcessor())
                 .end();
     }
 }
