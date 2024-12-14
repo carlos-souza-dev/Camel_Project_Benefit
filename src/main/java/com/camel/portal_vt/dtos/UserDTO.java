@@ -12,5 +12,5 @@ public class UserDTO {
 
     String userName;
 
-    String acceptCampaign;
+    Boolean acceptCampaign;
 }
