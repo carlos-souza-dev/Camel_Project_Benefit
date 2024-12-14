@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPTCAMPAIGNROUTE;
+import static com.camel.portal_vt.routes.GetUserRoute.GETUSERROUTE;
 
 @Component
 public class MainRoutes extends RouteBuilder {
@@ -33,10 +34,14 @@ public class MainRoutes extends RouteBuilder {
 //                .dataFormatProperty("prettyPrint", "true");
 
         rest("/user")
+                .get("/{userName}")
+                .produces("")
+                .to(DIRECT+"getUserRoute")
+
                 .post("/")
                 .type(UserDTO.class)
                 .produces("application/json")
-                .to(DIRECT+"saveUserRoute")
+                .to(DIRECT+GETUSERROUTE)
 
                 .get("/{userName}/exists")
                 .produces("")
