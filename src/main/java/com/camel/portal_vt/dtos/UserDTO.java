@@ -8,17 +8,9 @@ import lombok.Setter;
 @Setter
 public class UserDTO {
 
-    String userId;
-
     String name;
 
     String userName;
 
-    String password;
-
     String acceptCampaign;
-
-    String dateCreated;
-
-    String dateUpdated;
 }
