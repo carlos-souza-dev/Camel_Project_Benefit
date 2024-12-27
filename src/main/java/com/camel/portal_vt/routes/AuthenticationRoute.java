@@ -3,7 +3,6 @@ package com.camel.portal_vt.routes;
 import com.camel.portal_vt.processors.BackEndErrorProcessor;
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
 import com.camel.portal_vt.processors.ResponseAuthenticationUserProcessor;
-import com.camel.portal_vt.processors.ResponseErrorAuthenticationUserProcesso;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
 import org.apache.camel.http.base.HttpOperationFailedException;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationRoute extends RouteBuilder {
+
+    public static final String AUTHENTICATION_ROUTE = "authenticationRoute";
 
     @Override
     public void configure() throws Exception {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransportsInfoRequestRoute extends RouteBuilder {
 
+    private static final String TRANSPORTS_INFO_ROUTE = "transportsInfoRoute";
     private final Environment env;
 
     public TransportsInfoRequestRoute(Environment env) {

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserAlreadyExistsRoute extends RouteBuilder {
+
+    public static final String USER_ALREADY_EXISTS_ROUTE = "userAlreadyExistsRoute";
+
     @Override
     public void configure() throws Exception {
         from("direct:userAlreadyExistsRoute")

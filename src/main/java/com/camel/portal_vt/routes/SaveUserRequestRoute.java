@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SaveUserRequestRoute extends RouteBuilder {
 
+    public static final String SAVE_USER_ROUTE = "saveUserRoute";
+
     @Override
     public void configure() throws Exception {
         from("direct:saveUserRoute")

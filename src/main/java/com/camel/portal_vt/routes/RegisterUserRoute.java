@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class RegisterUserRoute extends RouteBuilder {
 
+    public static final String REGISTER_ROUTE = "registerRoute";
+
     @Override
     public void configure() throws Exception {
         from("direct:registerRoute")

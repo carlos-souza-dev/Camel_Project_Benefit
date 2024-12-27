@@ -9,7 +9,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
+import static com.camel.portal_vt.routes.AuthenticationRoute.AUTHENTICATION_ROUTE;
 import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
+import static com.camel.portal_vt.routes.RegisterUserRoute.REGISTER_ROUTE;
+import static com.camel.portal_vt.routes.SaveUserRequestRoute.SAVE_USER_ROUTE;
+import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXISTS_ROUTE;
 
 @Component
 public class MainRoutes extends RouteBuilder {
@@ -42,21 +46,21 @@ public class MainRoutes extends RouteBuilder {
                 .post("/")
                 .type(UserDTO.class)
                 .produces("application/json")
-                .to(DIRECT+"saveUserRoute")
+                .to(DIRECT+SAVE_USER_ROUTE)
 
                 .get("/{userName}/exists")
                 .produces("")
-                .to(DIRECT+"userAlreadyExistsRoute")
+                .to(DIRECT+USER_ALREADY_EXISTS_ROUTE)
 
                 .post("/login")
                 .type(UserAuthDTO.class)
                 .produces("application/json")
-                .to(DIRECT+"authenticationRoute")
+                .to(DIRECT+AUTHENTICATION_ROUTE)
 
                 .post("/register")
                 .type(UserRegisterDTO.class)
                 .produces("application/json")
-                .to(DIRECT+"registerRoute")
+                .to(DIRECT+REGISTER_ROUTE)
                 
                 .put("/{userName}")
                 .type(UserDTO.class)
