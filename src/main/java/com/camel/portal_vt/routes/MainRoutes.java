@@ -1,5 +1,6 @@
 package com.camel.portal_vt.routes;
 
+import com.camel.portal_vt.dtos.AddressesDTO;
 import com.camel.portal_vt.dtos.UserAuthDTO;
 import com.camel.portal_vt.dtos.UserDTO;
 import com.camel.portal_vt.dtos.UserRegisterDTO;
@@ -9,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
+import static com.camel.portal_vt.routes.AddressesRoute.GET_ADDRESSES_ROUTE;
 import static com.camel.portal_vt.routes.AuthenticationRoute.AUTHENTICATION_ROUTE;
 import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
 import static com.camel.portal_vt.routes.RegisterUserRoute.REGISTER_ROUTE;
@@ -65,7 +67,12 @@ public class MainRoutes extends RouteBuilder {
                 .put("/{userName}")
                 .type(UserDTO.class)
                 .produces("application/json")
-                        .to(DIRECT+ ACCEPT_CAMPAIGN_ROUTE);
+                        .to(DIRECT+ ACCEPT_CAMPAIGN_ROUTE)
+
+                .get("/{userName}/addresses")
+                .type(AddressesDTO.class)
+                .produces("application/json")
+                .to(DIRECT+GET_ADDRESSES_ROUTE);
                 
 
         rest().path("/route")
