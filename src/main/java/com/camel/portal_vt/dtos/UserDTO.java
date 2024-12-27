@@ -13,4 +13,6 @@ public class UserDTO {
     String userName;
 
     Boolean acceptCampaign;
+
+    public String dateAcceptCampaign;
 }
