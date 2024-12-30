@@ -1,6 +1,8 @@
 package com.camel.portal_vt.dtos.google;
 
-public record Distance(
-        String text,
-        int value
-) {}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Distance{
+    public String text;
+}

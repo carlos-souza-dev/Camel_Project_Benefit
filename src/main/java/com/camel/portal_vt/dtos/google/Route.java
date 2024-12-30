@@ -1,13 +1,10 @@
 package com.camel.portal_vt.dtos.google;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record Route(
-        Bounds bounds,
-        String copyrights,
-        List<Leg> legs,
-        Polyline overview_polyline,
-        String summary,
-        List<String> warnings,
-        List<Integer> waypoint_order
+        List<Leg> legs
 ) {}

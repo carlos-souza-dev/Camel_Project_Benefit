@@ -1,6 +1,8 @@
 package com.camel.portal_vt.dtos.google;
 
-public record Duration(
-        String text,
-        int value
-) {}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Duration{
+    public String text;
+}
