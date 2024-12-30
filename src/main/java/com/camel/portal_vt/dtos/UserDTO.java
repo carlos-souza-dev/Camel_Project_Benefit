@@ -14,5 +14,5 @@ public class UserDTO {
 
     Boolean acceptCampaign;
 
-    public String dateAcceptCampaign;
+    String dateAcceptCampaign;
 }

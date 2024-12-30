@@ -5,7 +5,7 @@ public record UserRegisterResponseDTO (
         String name,
         String userName,
         String password,
-        Address homeAddress,
-        Address workAddress
+        AddressDTO homeAddress,
+        AddressDTO workAddress
 ){
 }

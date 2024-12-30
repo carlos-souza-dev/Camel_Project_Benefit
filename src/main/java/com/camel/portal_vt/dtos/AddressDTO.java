@@ -1,6 +1,6 @@
 package com.camel.portal_vt.dtos;
 
-public record Address(
+public record AddressDTO(
         String street,
         int number,
         String city,

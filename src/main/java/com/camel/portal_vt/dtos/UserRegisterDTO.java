@@ -13,7 +13,7 @@ public class UserRegisterDTO {
 
     String password;
 
-    Address homeAddress;
+    AddressDTO homeAddress;
 
-    Address workAddress;
+    AddressDTO workAddress;
 }
