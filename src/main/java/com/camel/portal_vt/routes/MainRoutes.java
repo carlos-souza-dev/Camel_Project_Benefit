@@ -10,11 +10,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
-import static com.camel.portal_vt.routes.AddressesRoute.GET_ADDRESSES_ROUTE;
+import static com.camel.portal_vt.routes.GetAddressesRoute.GET_ADDRESSES_ROUTE;
 import static com.camel.portal_vt.routes.AuthenticationRoute.AUTHENTICATION_ROUTE;
 import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
 import static com.camel.portal_vt.routes.RegisterUserRoute.REGISTER_ROUTE;
 import static com.camel.portal_vt.routes.SaveUserRequestRoute.SAVE_USER_ROUTE;
+import static com.camel.portal_vt.routes.TransportsInfoRoute.TRANSPORTS_INFO_ROUTE;
 import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXISTS_ROUTE;
 
 @Component
@@ -72,13 +73,12 @@ public class MainRoutes extends RouteBuilder {
                 .get("/{userName}/addresses")
                 .type(AddressesDTO.class)
                 .produces("application/json")
-                .to(DIRECT+GET_ADDRESSES_ROUTE);
-                
+                .to(DIRECT+GET_ADDRESSES_ROUTE)
 
-        rest().path("/route")
-                .get("/")
+                .get("/{userName}/routes")
                 .produces("application/json")
-                .to(DIRECT+"transportsInfoRoute");
+                .outType(AddressesDTO.class)
+                .to(DIRECT+TRANSPORTS_INFO_ROUTE);
 
     }
 }

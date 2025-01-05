@@ -8,8 +8,8 @@ public class ResponseGetAddressesProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        AddressesDTO addressesDTO = exchange.getIn().getBody(AddressesDTO.class);
+        AddressesDTO addressesDTO = exchange.getMessage().getBody(AddressesDTO.class);
 
-        exchange.getIn().setBody(addressesDTO);
+        exchange.getMessage().setBody(addressesDTO);
     }
 }
