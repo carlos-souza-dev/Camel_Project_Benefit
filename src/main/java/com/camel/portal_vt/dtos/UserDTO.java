@@ -15,4 +15,6 @@ public class UserDTO {
     Boolean acceptCampaign;
 
     String dateAcceptCampaign;
+
+    AddressesDTO addresses;
 }

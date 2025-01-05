@@ -42,7 +42,7 @@ public class MainRoutes extends RouteBuilder {
         String GetUserRoute;
         rest("/user")
                 .get("/{userName}")
-                .produces("")
+                .produces("application/json")
                 .to(DIRECT+ GET_USER_ROUTE)
 
                 .post("/")
@@ -67,7 +67,7 @@ public class MainRoutes extends RouteBuilder {
                 .put("/{userName}")
                 .type(UserDTO.class)
                 .produces("application/json")
-                        .to(DIRECT+ ACCEPT_CAMPAIGN_ROUTE)
+                .to(DIRECT+ ACCEPT_CAMPAIGN_ROUTE)
 
                 .get("/{userName}/addresses")
                 .type(AddressesDTO.class)
