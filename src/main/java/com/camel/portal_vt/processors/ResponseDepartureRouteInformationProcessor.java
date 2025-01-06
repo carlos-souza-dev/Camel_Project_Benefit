@@ -3,19 +3,26 @@ package com.camel.portal_vt.processors;
 import com.camel.portal_vt.dtos.google.RouteInformation;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResponseDepartureRouteInformationProcessor implements Processor {
 
+    private static final Logger logger = LoggerFactory.getLogger(ResponseDepartureRouteInformationProcessor.class);
+
     @Override
     public void process(Exchange exchange) throws Exception {
+        logger.info("Start - Get response departure route google api");
 
-        RouteInformation routeInformation = exchange.getIn().getBody(RouteInformation.class);
+        RouteInformation routeInformation = exchange.getMessage().getBody(RouteInformation.class);
 
         if (routeInformation.status().equalsIgnoreCase("OK")){
             exchange.setProperty("departureRoute", true);
-            exchange.getIn().setBody(routeInformation.routes());
+            exchange.setProperty("departureRoute", routeInformation.routes().get(0));
         } else {
             exchange.setProperty("departureRoute", false);
         }
+
+        logger.info("Finish - Get response departure route google api");
     }
 }
