@@ -70,10 +70,10 @@ public class MainRoutes extends RouteBuilder {
                 .produces("application/json")
                 .to(DIRECT+ ACCEPT_CAMPAIGN_ROUTE)
 
-                .get("/{userName}/addresses")
-                .type(AddressesDTO.class)
-                .produces("application/json")
-                .to(DIRECT+GET_ADDRESSES_ROUTE)
+//                .get("/{userName}/addresses")
+//                .type(AddressesDTO.class)
+//                .produces("application/json")
+//                .to(DIRECT+GET_ADDRESSES_ROUTE)
 
                 .get("/{userName}/routes")
                 .produces("application/json")
