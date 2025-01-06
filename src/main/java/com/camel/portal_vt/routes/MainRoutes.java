@@ -1,9 +1,7 @@
 package com.camel.portal_vt.routes;
 
-import com.camel.portal_vt.dtos.AddressesDTO;
-import com.camel.portal_vt.dtos.UserAuthDTO;
-import com.camel.portal_vt.dtos.UserDTO;
-import com.camel.portal_vt.dtos.UserRegisterDTO;
+import com.camel.portal_vt.dtos.*;
+import com.camel.portal_vt.dtos.google.RouteInformation;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
@@ -75,9 +73,10 @@ public class MainRoutes extends RouteBuilder {
                 .produces("application/json")
                 .to(DIRECT+GET_ADDRESSES_ROUTE)
 
-                .get("/{userName}/routes")
+                .post("/routes")
+                .type(AddressesDTO.class)
                 .produces("application/json")
-                .outType(AddressesDTO.class)
+                .outType(RoutesDTO.class)
                 .to(DIRECT+TRANSPORTS_INFO_ROUTE);
 
     }
