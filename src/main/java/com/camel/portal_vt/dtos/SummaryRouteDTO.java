@@ -1,0 +1,21 @@
+package com.camel.portal_vt.dtos;
+
+import com.camel.portal_vt.dtos.google.TransitDetails;
+
+import java.util.List;
+
+public record SummaryRouteDTO(
+        String distance,
+        String duration,
+        List<TransitDetails> transitDetails
+) {
+    public SummaryRouteDTO(String distance,
+                           String duration,
+                           List<TransitDetails> transitDetails) {
+        this.distance = distance;
+        this.duration = duration;
+        this.transitDetails = transitDetails;
+    }
+
+    ;
+}
