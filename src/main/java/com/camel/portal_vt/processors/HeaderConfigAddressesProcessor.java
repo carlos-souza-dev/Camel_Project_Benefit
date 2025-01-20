@@ -1,7 +1,7 @@
 package com.camel.portal_vt.processors;
 
-import com.camel.portal_vt.dtos.AddressDTO;
 import com.camel.portal_vt.dtos.AddressesDTO;
+import com.camel.portal_vt.dtos.FullAddressDTO;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -18,30 +18,10 @@ public class HeaderConfigAddressesProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
         logger.info("Start - Headers config addresses");
 
-        AddressesDTO addressesDTO = exchange.getIn().getBody(AddressesDTO.class);
-        AddressDTO homeAddress = addressesDTO.homeAddress();
-        AddressDTO workAddress = addressesDTO.workAddress();
+        FullAddressDTO fullAddressDTO = exchange.getIn().getBody(FullAddressDTO.class);
 
-        String originAddress = String.format("%s, %d - %s, %s - %s, %s, Brasil",
-                homeAddress.street(),
-                homeAddress.number(),
-                homeAddress.district(),
-                homeAddress.state(),
-                homeAddress.uf(),
-                homeAddress.cep()
-        );
-
-        String destinationAddress = String.format("%s, %d - %s, %s - %s, %s, Brasil",
-                workAddress.street(),
-                workAddress.number(),
-                workAddress.district(),
-                workAddress.state(),
-                workAddress.uf(),
-                workAddress.cep()
-        );
-
-        originAddress = URLEncoder.encode(originAddress, StandardCharsets.UTF_8);
-        destinationAddress = URLEncoder.encode(destinationAddress,StandardCharsets.UTF_8);
+        String originAddress = URLEncoder.encode(fullAddressDTO.homeAddress(), StandardCharsets.UTF_8);
+        String destinationAddress = URLEncoder.encode(fullAddressDTO.workAddress(),StandardCharsets.UTF_8);
 
         exchange.setProperty("homeAddress", originAddress);
         exchange.setProperty("workAddress", destinationAddress);

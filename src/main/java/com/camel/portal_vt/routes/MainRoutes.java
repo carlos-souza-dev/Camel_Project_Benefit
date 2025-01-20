@@ -1,7 +1,6 @@
 package com.camel.portal_vt.routes;
 
 import com.camel.portal_vt.dtos.*;
-import com.camel.portal_vt.dtos.google.RouteInformation;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
@@ -74,7 +73,7 @@ public class MainRoutes extends RouteBuilder {
                 .to(DIRECT+GET_ADDRESSES_ROUTE)
 
                 .post("/routes")
-                .type(AddressesDTO.class)
+                .type(FullAddressDTO.class)
                 .produces("application/json")
                 .outType(RoutesDTO.class)
                 .to(DIRECT+TRANSPORTS_INFO_ROUTE);

@@ -1,5 +1,6 @@
 package com.camel.portal_vt.processors;
 
+import com.camel.portal_vt.enums.Destiny;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.http.HttpMethods;
@@ -12,30 +13,30 @@ public class HeaderConfigGoogleApiProcessor implements Processor {
 
     private static final Logger logger = LoggerFactory.getLogger(HeaderConfigGoogleApiProcessor.class);
     private final HttpMethods httpMethod;
-    private String direction;
+    private Destiny destiny;
     private String origin;
-    private String destiny;
+    private String destination;
 
     @Autowired
     private Environment env;
 
-    public HeaderConfigGoogleApiProcessor(HttpMethods httpMethod, String direction, Environment env){
+    public HeaderConfigGoogleApiProcessor(HttpMethods httpMethod, Destiny destiny, Environment env){
         this.httpMethod = httpMethod;
         this.env = env;
-        this.direction = direction;
+        this.destiny = destiny;
     }
 
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        if(direction.equalsIgnoreCase("work")) {
+        if(destiny.getValue().equalsIgnoreCase("GO-HOME")) {
             origin =  exchange.getProperty("homeAddress", String.class);
-            destiny =  exchange.getProperty("workAddress", String.class);
+            destination =  exchange.getProperty("workAddress", String.class);
         }
 
-        if(direction.equalsIgnoreCase("home")){
+        if(destiny.getValue().equalsIgnoreCase("GO-WORK")){
             origin =  exchange.getProperty("workAddress", String.class);
-            destiny =  exchange.getProperty("homeAddress", String.class);
+            destination =  exchange.getProperty("homeAddress", String.class);
         }
 
         String queryParams = String.format("region=%s&language=%s&units=%s&mode=%s&origin=%s&destination=%s&key=%s",
@@ -44,13 +45,13 @@ public class HeaderConfigGoogleApiProcessor implements Processor {
                 this.env.getProperty("google-api.units"),
                 this.env.getProperty("google-api.mode"),
                 origin,
-                destiny,
+                destination,
                 this.env.getProperty("google-api.key-api"));
 
+        exchange.getMessage().removeHeader(Exchange.HTTP_PATH);
         exchange.getMessage().setHeader("Content-Type", "application/json");
         exchange.getMessage().setHeader("Accept", "application/json");
         exchange.getMessage().setHeader(Exchange.HTTP_METHOD, this.httpMethod);
-        exchange.getMessage().removeHeader(Exchange.HTTP_PATH);
         exchange.getMessage().setHeader(Exchange.HTTP_QUERY, queryParams);
         exchange.getMessage().setHeader(Exchange.HTTP_URI, this.env.getProperty("google-api-directions.url"));
 
