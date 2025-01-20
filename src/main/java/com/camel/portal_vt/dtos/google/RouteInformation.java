@@ -6,4 +6,8 @@ public record RouteInformation(
         List<GeocodedWaypoint> geocoded_waypoints,
         List<Route> routes,
         String status
-) {}
+) {
+    public Leg getLeg(){
+        return routes.get(0).legs().get(0);
+    }
+}
