@@ -1,8 +1,7 @@
 package com.camel.portal_vt.processors;
 
-import com.camel.portal_vt.dtos.AddressDTO;
 import com.camel.portal_vt.dtos.RoutesDTO;
-import com.camel.portal_vt.dtos.google.Route;
+import com.camel.portal_vt.dtos.SummaryRouteDTO;
 import com.camel.portal_vt.dtos.google.RouteInformation;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -19,12 +18,23 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
 
         RouteInformation routeInformation = exchange.getMessage().getBody(RouteInformation.class);
 
-        if (routeInformation.status().equalsIgnoreCase("OK")){
+        if (routeInformation.status().equalsIgnoreCase("OK")) {
             String residentialAddress = exchange.getProperty("homeAddress", String.class);
             String businessAddres = exchange.getProperty("workAddress", String.class);
-            Route departureRoute = exchange.getProperty("departureRoute", Route.class);
 
-            RoutesDTO routesDTO = new RoutesDTO(residentialAddress, businessAddres, departureRoute, routeInformation.routes().get(0));
+            SummaryRouteDTO departureRoute = exchange.getProperty("departureRoute", SummaryRouteDTO.class);
+            SummaryRouteDTO arrivalRoute = new SummaryRouteDTO(
+                    routeInformation.getLeg().distance().text,
+                    routeInformation.getLeg().duration().text,
+                    routeInformation.getLeg().summaryRoute()
+            );
+
+            RoutesDTO routesDTO = new RoutesDTO(
+                    residentialAddress,
+                    businessAddres,
+                    departureRoute,
+                    arrivalRoute
+            );
 
             exchange.getIn().setBody(routesDTO);
         } else {

@@ -1,5 +1,6 @@
 package com.camel.portal_vt.processors;
 
+import com.camel.portal_vt.dtos.SummaryRouteDTO;
 import com.camel.portal_vt.dtos.google.RouteInformation;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -16,9 +17,15 @@ public class ResponseDepartureRouteInformationProcessor implements Processor {
 
         RouteInformation routeInformation = exchange.getMessage().getBody(RouteInformation.class);
 
-        if (routeInformation.status().equalsIgnoreCase("OK")){
+        SummaryRouteDTO departureRoute = new SummaryRouteDTO(
+                routeInformation.getLeg().distance().text,
+                routeInformation.getLeg().duration().text,
+                routeInformation.getLeg().summaryRoute()
+        );
+
+        if (routeInformation.status().equalsIgnoreCase("OK")) {
             exchange.setProperty("departureRoute", true);
-            exchange.setProperty("departureRoute", routeInformation.routes().get(0));
+            exchange.setProperty("departureRoute", departureRoute);
         } else {
             exchange.setProperty("departureRoute", false);
         }

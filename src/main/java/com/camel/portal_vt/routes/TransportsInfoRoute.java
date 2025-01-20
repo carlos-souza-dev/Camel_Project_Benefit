@@ -1,8 +1,8 @@
 package com.camel.portal_vt.routes;
 
-import com.camel.portal_vt.enums.Destiny;
 import com.camel.portal_vt.dtos.AddressesDTO;
 import com.camel.portal_vt.dtos.google.RouteInformation;
+import com.camel.portal_vt.enums.Destiny;
 import com.camel.portal_vt.processors.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpMethods;
