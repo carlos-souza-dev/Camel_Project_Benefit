@@ -20,12 +20,18 @@ public class HeaderConfigAddressesProcessor implements Processor {
 
         FullAddressDTO fullAddressDTO = exchange.getIn().getBody(FullAddressDTO.class);
 
-        String originAddress = URLEncoder.encode(fullAddressDTO.homeAddress(), StandardCharsets.UTF_8);
-        String destinationAddress = URLEncoder.encode(fullAddressDTO.workAddress(),StandardCharsets.UTF_8);
+        String originAddress = this.encodeAddress(fullAddressDTO.homeAddress());
+        String destinationAddress = this.encodeAddress(fullAddressDTO.workAddress());
 
         exchange.setProperty("homeAddress", originAddress);
         exchange.setProperty("workAddress", destinationAddress);
+        exchange.setProperty("residentialAddress", fullAddressDTO.homeAddress());
+        exchange.setProperty("businessAddress", fullAddressDTO.workAddress());
 
         logger.info("Finish - Headers config addresses");
+    }
+
+    public String encodeAddress(String address){
+        return URLEncoder.encode(address, StandardCharsets.UTF_8);
     }
 }

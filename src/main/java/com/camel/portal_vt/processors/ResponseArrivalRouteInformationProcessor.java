@@ -19,8 +19,8 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
         RouteInformation routeInformation = exchange.getMessage().getBody(RouteInformation.class);
 
         if (routeInformation.status().equalsIgnoreCase("OK")) {
-            String residentialAddress = exchange.getProperty("homeAddress", String.class);
-            String businessAddres = exchange.getProperty("workAddress", String.class);
+            String residentialAddress = exchange.getProperty("residentialAddress", String.class);
+            String businessAddres = exchange.getProperty("businessAddress", String.class);
 
             SummaryRouteDTO departureRoute = exchange.getProperty("departureRoute", SummaryRouteDTO.class);
             SummaryRouteDTO arrivalRoute = new SummaryRouteDTO(
@@ -37,6 +37,7 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
             );
 
             exchange.getIn().setBody(routesDTO);
+
         } else {
             exchange.setProperty("arrivalRoute", false);
         }
