@@ -3,6 +3,7 @@ package com.camel.portal_vt.processors;
 import com.camel.portal_vt.dtos.RoutesDTO;
 import com.camel.portal_vt.dtos.SummaryRouteDTO;
 import com.camel.portal_vt.dtos.google.RouteInformation;
+import com.camel.portal_vt.utils.NumberUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
@@ -26,7 +27,8 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
             SummaryRouteDTO arrivalRoute = new SummaryRouteDTO(
                     routeInformation.getLeg().distance().text,
                     routeInformation.getLeg().duration().text,
-                    routeInformation.getLeg().summaryRoute()
+                    routeInformation.getLeg().summaryRoute(),
+                    NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().summaryRoute()))
             );
 
             RoutesDTO routesDTO = new RoutesDTO(
