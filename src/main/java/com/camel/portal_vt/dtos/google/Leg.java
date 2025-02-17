@@ -10,7 +10,7 @@ public record Leg(
         Duration duration,
         List<Step> steps
 ) {
-    public List<TransitDetails> summaryRoute(){
+    public List<TransitDetails> transitDetails(){
 
         if (steps != null) {
             List<TransitDetails> transitDetails = steps.stream()

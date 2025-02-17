@@ -8,16 +8,16 @@ import java.util.List;
 public record SummaryRouteDTO(
         String distance,
         String duration,
-        List<TransitDetails> transitDetails,
+        List<RouteDetailsDTO> routeDetails,
         String totalValue
 ) {
     public SummaryRouteDTO(String distance,
                            String duration,
-                           List<TransitDetails> transitDetails,
+                           List<RouteDetailsDTO> routeDetails,
                            String totalValue) {
         this.distance = distance;
         this.duration = duration;
-        this.transitDetails = transitDetails;
+        this.routeDetails = routeDetails;
         this.totalValue = totalValue;
     }
 

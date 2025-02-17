@@ -1,8 +1,10 @@
 package com.camel.portal_vt.processors;
 
+import com.camel.portal_vt.dtos.RouteDetailsDTO;
 import com.camel.portal_vt.dtos.RoutesDTO;
 import com.camel.portal_vt.dtos.SummaryRouteDTO;
 import com.camel.portal_vt.dtos.google.RouteInformation;
+import com.camel.portal_vt.enums.Destiny;
 import com.camel.portal_vt.utils.NumberUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -27,8 +29,8 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
             SummaryRouteDTO arrivalRoute = new SummaryRouteDTO(
                     routeInformation.getLeg().distance().text,
                     routeInformation.getLeg().duration().text,
-                    routeInformation.getLeg().summaryRoute(),
-                    NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().summaryRoute()))
+                    RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails(), Destiny.HOME.getValue()),
+                    NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails()))
             );
 
             RoutesDTO routesDTO = new RoutesDTO(
