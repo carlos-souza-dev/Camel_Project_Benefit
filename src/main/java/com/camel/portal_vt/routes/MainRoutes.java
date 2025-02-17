@@ -14,6 +14,7 @@ import static com.camel.portal_vt.routes.RegisterUserRoute.REGISTER_ROUTE;
 import static com.camel.portal_vt.routes.SaveUserRequestRoute.SAVE_USER_ROUTE;
 import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXISTS_ROUTE;
 import static com.camel.portal_vt.routes.TransportsInfoRoute.INFO_ROUTES_ROUTE;
+import static com.camel.portal_vt.routes.AcceptRoutesRoute.ACCEPT_ROUTES_ROUTE;
 
 @Component
 public class MainRoutes extends RouteBuilder {
@@ -77,6 +78,11 @@ public class MainRoutes extends RouteBuilder {
                 .produces("application/json")
                 .outType(RoutesDTO.class)
                 .to(DIRECT+INFO_ROUTES_ROUTE)
+
+                .post("/accept-routes")
+                .type(RoutesDTO.class)
+                .produces("application/json")
+                .to(DIRECT+ACCEPT_ROUTES_ROUTE);
 
     }
 }
