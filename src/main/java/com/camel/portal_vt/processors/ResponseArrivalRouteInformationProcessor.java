@@ -27,15 +27,14 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
 
             SummaryRouteDTO departureRoute = exchange.getProperty("departureRoute", SummaryRouteDTO.class);
             SummaryRouteDTO arrivalRoute = new SummaryRouteDTO(
+                    Destiny.HOME.getValue(),
                     routeInformation.getLeg().distance().text,
                     routeInformation.getLeg().duration().text,
-                    RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails(), Destiny.HOME.getValue()),
+                    RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails()),
                     NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails()))
             );
 
             RoutesDTO routesDTO = new RoutesDTO(
-                    residentialAddress,
-                    businessAddres,
                     departureRoute,
                     arrivalRoute
             );

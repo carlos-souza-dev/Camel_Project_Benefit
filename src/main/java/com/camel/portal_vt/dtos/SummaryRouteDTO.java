@@ -6,15 +6,18 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record SummaryRouteDTO(
+        String direction,
         String distance,
         String duration,
         List<RouteDetailsDTO> routeDetails,
         String totalValue
 ) {
-    public SummaryRouteDTO(String distance,
+    public SummaryRouteDTO(String direction,
+                           String distance,
                            String duration,
                            List<RouteDetailsDTO> routeDetails,
                            String totalValue) {
+        this.direction = direction;
         this.distance = distance;
         this.duration = duration;
         this.routeDetails = routeDetails;

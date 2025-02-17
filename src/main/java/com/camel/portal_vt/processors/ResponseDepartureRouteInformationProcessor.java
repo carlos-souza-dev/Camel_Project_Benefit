@@ -21,10 +21,11 @@ public class ResponseDepartureRouteInformationProcessor implements Processor {
         RouteInformation routeInformation = exchange.getMessage().getBody(RouteInformation.class);
 
         SummaryRouteDTO departureRoute = new SummaryRouteDTO(
+                Destiny.WORK.getValue(),
                 routeInformation.getLeg().distance().text,
                 routeInformation.getLeg().duration().text,
-                RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails(), Destiny.WORK.getValue()),
-                NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails()))        );
+                RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails()),
+                NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails())));
 
         if (routeInformation.status().equalsIgnoreCase("OK")) {
             exchange.setProperty("departureRoute", true);
