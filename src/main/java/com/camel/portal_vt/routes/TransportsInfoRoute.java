@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransportsInfoRoute extends RouteBuilder {
 
-    public static final String TRANSPORTS_INFO_ROUTE = "transportsInfoRoute";
+    public static final String INFO_ROUTES_ROUTE = "infoRoutesRoute";
     private final Environment env;
 
     public TransportsInfoRoute(Environment env) {
@@ -22,7 +22,7 @@ public class TransportsInfoRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:transportsInfoRoute")
+        from("direct:infoRoutesRoute")
             .routeId("Route - Route information")
             .process(new HeaderConfigAddressesProcessor())
             .marshal().json(JsonLibrary.Jackson, AddressesDTO.class)
