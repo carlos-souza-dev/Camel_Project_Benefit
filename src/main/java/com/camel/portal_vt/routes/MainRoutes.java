@@ -7,6 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
+import static com.camel.portal_vt.routes.CancelSolicitationRoute.CANCEL_SOLICITATION_ROUTE;
 import static com.camel.portal_vt.routes.GetAddressesRoute.GET_ADDRESSES_ROUTE;
 import static com.camel.portal_vt.routes.AuthenticationRoute.AUTHENTICATION_ROUTE;
 import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
@@ -82,7 +83,11 @@ public class MainRoutes extends RouteBuilder {
                 .post("/accept-routes")
                 .type(RoutesDTO.class)
                 .produces("application/json")
-                .to(DIRECT+ACCEPT_ROUTES_ROUTE);
+                .to(DIRECT+ACCEPT_ROUTES_ROUTE)
+
+                .get("/cancel-solicitation/{userName}")
+                .produces("application/json")
+                .to(DIRECT+CANCEL_SOLICITATION_ROUTE);
 
     }
 }
