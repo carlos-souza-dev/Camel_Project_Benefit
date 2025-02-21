@@ -27,7 +27,7 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
 
             SummaryRouteDTO departureRoute = exchange.getProperty("departureRoute", SummaryRouteDTO.class);
             SummaryRouteDTO arrivalRoute = new SummaryRouteDTO(
-                    Destiny.HOME.getValue(),
+                    Destiny.BACK.getValue(),
                     routeInformation.getLeg().distance().text,
                     routeInformation.getLeg().duration().text,
                     RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails()),

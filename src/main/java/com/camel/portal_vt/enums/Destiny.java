@@ -9,8 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum Destiny {
 
-    HOME("GO-HOME"),
-    WORK("GO-WORK");
+    BACK("BACK"),
+    GOING("GOING");
 
     private String value;
 }
