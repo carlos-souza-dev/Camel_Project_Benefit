@@ -81,7 +81,7 @@ public class MainRoutes extends RouteBuilder {
                 .to(DIRECT+INFO_ROUTES_ROUTE)
 
                 .post("/accept-routes")
-                .type(RoutesDTO.class)
+                .type(RoutesRequestDTO.class)
                 .produces("application/json")
                 .to(DIRECT+ACCEPT_ROUTES_ROUTE)
 
