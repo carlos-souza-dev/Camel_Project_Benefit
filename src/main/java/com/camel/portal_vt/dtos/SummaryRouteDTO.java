@@ -10,13 +10,13 @@ public record SummaryRouteDTO(
         String distance,
         String duration,
         List<RouteDetailsDTO> routeDetails,
-        String totalValue
+        BigDecimal totalValue
 ) {
     public SummaryRouteDTO(String direction,
                            String distance,
                            String duration,
                            List<RouteDetailsDTO> routeDetails,
-                           String totalValue) {
+                           BigDecimal totalValue) {
         this.direction = direction;
         this.distance = distance;
         this.duration = duration;
