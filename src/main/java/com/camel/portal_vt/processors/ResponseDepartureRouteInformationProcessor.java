@@ -25,7 +25,7 @@ public class ResponseDepartureRouteInformationProcessor implements Processor {
                 routeInformation.getLeg().distance().text,
                 routeInformation.getLeg().duration().text,
                 RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails()),
-                NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails())));
+                NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails()));
 
         if (routeInformation.status().equalsIgnoreCase("OK")) {
             exchange.setProperty("departureRoute", true);

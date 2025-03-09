@@ -31,7 +31,7 @@ public class ResponseArrivalRouteInformationProcessor implements Processor {
                     routeInformation.getLeg().distance().text,
                     routeInformation.getLeg().duration().text,
                     RouteDetailsDTO.transformListTransitDatailToRouteDetails(routeInformation.getLeg().transitDetails()),
-                    NumberUtils.formatToBRL(NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails()))
+                    NumberUtils.sumTotalValueRoute(routeInformation.getLeg().transitDetails())
             );
 
             RoutesDTO routesDTO = new RoutesDTO(
