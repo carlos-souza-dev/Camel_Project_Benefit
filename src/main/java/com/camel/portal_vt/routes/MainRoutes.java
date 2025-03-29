@@ -12,6 +12,7 @@ import static com.camel.portal_vt.routes.GetAddressesRoute.GET_ADDRESSES_ROUTE;
 import static com.camel.portal_vt.routes.AuthenticationRoute.AUTHENTICATION_ROUTE;
 import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
 import static com.camel.portal_vt.routes.RegisterUserRoute.REGISTER_ROUTE;
+import static com.camel.portal_vt.routes.SaveAddressRoute.SAVE_ADDRESS_ROUTE;
 import static com.camel.portal_vt.routes.SaveUserRequestRoute.SAVE_USER_ROUTE;
 import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXISTS_ROUTE;
 import static com.camel.portal_vt.routes.TransportsInfoRoute.INFO_ROUTES_ROUTE;
@@ -87,7 +88,13 @@ public class MainRoutes extends RouteBuilder {
 
                 .get("/cancel-solicitation/{userName}")
                 .produces("application/json")
-                .to(DIRECT+CANCEL_SOLICITATION_ROUTE);
+                .to(DIRECT+CANCEL_SOLICITATION_ROUTE)
+
+                .post("/address")
+                .type(AddressRequestDTO.class)
+                .produces("application/json")
+                .outType(AddressDTO.class)
+                .to(DIRECT+SAVE_ADDRESS_ROUTE);
 
     }
 }
