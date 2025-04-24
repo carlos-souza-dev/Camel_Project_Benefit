@@ -18,13 +18,14 @@ public class SaveProcessingHIstRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:"+SAVE_PROCESSING_HIST_ROUTE)
-                .process(new RequestSaveProcessingHistProcessor())
-                .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
-                .doTry()
+            .process(new RequestSaveProcessingHistProcessor())
+                .marshal().json()
+            .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
+            .doTry()
                 .to("http://localhost:5000/java-portal-vt/api/user/processing-history?bridgeEndpoint=true")
                 .unmarshal().json(JsonLibrary.Jackson, ProcessingHistDTO.class)
                 .process(new ResponseSaveProcessingHistProcessor())
-                .doCatch(Exception.class)
+            .doCatch(Exception.class)
                 .log("Unhandled HTTP error occurred on route " + SAVE_PROCESSING_HIST_ROUTE)
                 .setBody(simple("Error: ${exception}"))
                 .process(new BackEndErrorProcessor());
