@@ -6,6 +6,8 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
 import static com.camel.portal_vt.routes.CancelSolicitationRoute.CANCEL_SOLICITATION_ROUTE;
 import static com.camel.portal_vt.routes.GetAddressesRoute.GET_ADDRESSES_ROUTE;
@@ -18,6 +20,7 @@ import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXI
 import static com.camel.portal_vt.routes.TransportsInfoRoute.INFO_ROUTES_ROUTE;
 import static com.camel.portal_vt.routes.AcceptRoutesRoute.ACCEPT_ROUTES_ROUTE;
 import static com.camel.portal_vt.routes.SaveProcessingHIstRoute.SAVE_PROCESSING_HIST_ROUTE;
+import static com.camel.portal_vt.routes.GetProcessingHistRoute.GET_PROCESSING_HIST_ROUTE;
 
 @Component
 public class MainRoutes extends RouteBuilder {
@@ -101,8 +104,12 @@ public class MainRoutes extends RouteBuilder {
                 .type(ProcessingHistDTO.class)
                 .produces("application/json")
                 .outType(ProcessingHistDTO.class)
-                .to(DIRECT+SAVE_PROCESSING_HIST_ROUTE);
+                .to(DIRECT+SAVE_PROCESSING_HIST_ROUTE)
 
+                .get("/processing-history/{userName}")
+                .produces("application/json")
+                .outType(List.class)
+                .to(DIRECT+GET_PROCESSING_HIST_ROUTE);
 
     }
 }
