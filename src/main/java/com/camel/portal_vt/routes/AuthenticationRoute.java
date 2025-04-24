@@ -16,18 +16,21 @@ public class AuthenticationRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("direct:authenticationRoute")
-                .routeId("Route - Authentication User")
-                .log("Send to rest Api java-portal-vt/api/user/login")
-                .marshal().json()
-                .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
-                .doTry()
-                    .to("http://localhost:5000/java-portal-vt/api/user/login?bridgeEndpoint=true")
-                    .process(new ResponseAuthenticationUserProcessor())
-                .doCatch(HttpOperationFailedException.class)
+        from("direct:"+AUTHENTICATION_ROUTE)
+            .routeId("Route - Authentication User")
+            .log("Send to rest Api java-portal-vt/api/user/login")
+            .marshal().json()
+            .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
+            .doTry()
+                .to("http://localhost:5000/java-portal-vt/api/user/login?bridgeEndpoint=true")
+                .process(new ResponseAuthenticationUserProcessor())
+            .doCatch(HttpOperationFailedException.class)
+                .log("Unhandled HTTP error occurred on route " + AUTHENTICATION_ROUTE)
+
 //                    .throwException(new IllegalArgumentException("Forced by me"))
-                    .process(new BackEndErrorProcessor())
-                    .log("Authenticate error")
+                .process(new BackEndErrorProcessor())
+                .log("Authenticate error")
                 .end();
+            .end();
     }
 }

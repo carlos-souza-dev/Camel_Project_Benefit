@@ -22,7 +22,7 @@ public class TransportsInfoRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:infoRoutesRoute")
+        from("direct:"+INFO_ROUTES_ROUTE)
             .routeId("Route - Route information")
             .process(new HeaderConfigAddressesProcessor())
             .marshal().json(JsonLibrary.Jackson, AddressesDTO.class)
@@ -43,6 +43,8 @@ public class TransportsInfoRoute extends RouteBuilder {
                     .endChoice()
                 .endDoTry()
             .doCatch(Exception.class)
+                .log("Unhandled HTTP error occurred on route " + INFO_ROUTES_ROUTE)
+                .setBody(simple("Error: ${exception.message}"))
                 .process(new BackEndErrorProcessor())
             .end();
     }

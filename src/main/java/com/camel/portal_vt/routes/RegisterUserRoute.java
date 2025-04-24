@@ -16,20 +16,20 @@ public class RegisterUserRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:registerRoute")
-                .routeId("Route - Register User")
-                .process(new ResquestRegisterUserProcessor())
-                .marshal().json()
-                .log("Send to rest Api java-portal-vt/api/user/register")
-                .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
-                .doTry()
-                    .to("http://localhost:5000/java-portal-vt/api/user/register?bridgeEndpoint=true")
+        from("direct:"+REGISTER_ROUTE)
+            .routeId("Route - Register User")
+            .process(new ResquestRegisterUserProcessor())
+            .marshal().json()
+            .log("Send to rest Api java-portal-vt/api/user/register")
+            .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
+            .doTry()
+                .to("http://localhost:5000/java-portal-vt/api/user/register?bridgeEndpoint=true")
 //                    .unmarshal().json(JsonLibrary.Jackson, String.class)
-                    .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                    .process(new ResponseRegisterUserProcessor())
-                .doCatch(Exception.class)
-                    .log("Unhandled HTTP error occurred on route 'registerRoute'")
-                    .setBody(simple("Error: ${exception}"))
-                    .process(new BackEndErrorProcessor());
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+                .process(new ResponseRegisterUserProcessor())
+            .doCatch(Exception.class)
+                .log("Unhandled HTTP error occurred on route " + REGISTER_ROUTE)
+                .setBody(simple("Error: ${exception}"))
+                .process(new BackEndErrorProcessor());
     }
 }

@@ -14,18 +14,19 @@ public class CancelSolicitationRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:cancelSolicitationRoute")
-                .routeId("Route - Cancel Solicitation")
-                .process(new RequestCancelSolicitationProcessor())
-                .process(new HeaderConfigJavaProcessor(HttpMethods.GET))
-                .log("Updated headers configs")
-                .doTry()
-                    .toD("http://localhost:5000/java-portal-vt/api/user/cancel-solicitation/${exchangeProperty.pathParam}?bridgeEndpoint=true")
-                    .process(new ResponseCancelSolicitationProcessor())
-                .doCatch(Exception.class)
-                    .log("HTTP request error")
-                    .process(new BackEndErrorProcessor())
-                .endDoTry()
-                .end();;
+        from("direct:"+CANCEL_SOLICITATION_ROUTE)
+            .routeId("Route - Cancel Solicitation")
+            .process(new RequestCancelSolicitationProcessor())
+            .process(new HeaderConfigJavaProcessor(HttpMethods.GET))
+            .log("Updated headers configs")
+            .doTry()
+                .toD("http://localhost:5000/java-portal-vt/api/user/cancel-solicitation/${exchangeProperty.pathParam}?bridgeEndpoint=true")
+                .process(new ResponseCancelSolicitationProcessor())
+            .doCatch(Exception.class)
+                .log("Unhandled HTTP error occurred on route " + CANCEL_SOLICITATION_ROUTE)
+                .setBody(simple("Error: ${exception}"))
+                .process(new BackEndErrorProcessor())
+            .endDoTry()
+            .end();
     }
 }

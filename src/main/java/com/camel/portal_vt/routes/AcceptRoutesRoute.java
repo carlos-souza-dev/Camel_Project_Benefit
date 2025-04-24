@@ -17,19 +17,20 @@ public class AcceptRoutesRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:acceptRoutesRoute" )
-                .routeId("Route - Routes accept")
-                .process(new RequestSaveTransportsInfoProcessor())
-                .marshal().json()
-                .log("Send to rest Api java-portal-vt/api/user/routes")
-                .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
-                .doTry()
-                    .toD("http://localhost:5000/java-portal-vt/api/user/routes?bridgeEndpoint=true")
+        from("direct:"+ACCEPT_ROUTES_ROUTE)
+            .routeId("Route - Routes accept")
+            .process(new RequestSaveTransportsInfoProcessor())
+            .marshal().json()
+            .log("Send to rest Api java-portal-vt/api/user/routes")
+            .process(new HeaderConfigJavaProcessor(HttpMethods.POST))
+            .doTry()
+                .toD("http://localhost:5000/java-portal-vt/api/user/routes?bridgeEndpoint=true")
                 .unmarshal().json(JsonLibrary.Jackson, UserDTO.class)
-                    .process(new ResponseSaveTransportsInfoProcessor())
-                .doCatch(Exception.class)
-                    .log("Unhandled HTTP error occurred on route 'saveTransportsInfoRoute'")
-                    .setBody(simple("Error: ${exception}"))
-                    .process(new BackEndErrorProcessor());
+                .process(new ResponseSaveTransportsInfoProcessor())
+            .doCatch(Exception.class)
+                .log("Unhandled HTTP error occurred on route " + ACCEPT_ROUTES_ROUTE)
+                .setBody(simple("Error: ${exception}"))
+                .process(new BackEndErrorProcessor())
+            .end();
     }
 }
