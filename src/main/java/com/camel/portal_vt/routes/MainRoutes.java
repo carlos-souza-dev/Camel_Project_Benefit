@@ -17,6 +17,7 @@ import static com.camel.portal_vt.routes.SaveUserRequestRoute.SAVE_USER_ROUTE;
 import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXISTS_ROUTE;
 import static com.camel.portal_vt.routes.TransportsInfoRoute.INFO_ROUTES_ROUTE;
 import static com.camel.portal_vt.routes.AcceptRoutesRoute.ACCEPT_ROUTES_ROUTE;
+import static com.camel.portal_vt.routes.SaveProcessingHIstRoute.SAVE_PROCESSING_HIST_ROUTE;
 
 @Component
 public class MainRoutes extends RouteBuilder {
@@ -94,7 +95,14 @@ public class MainRoutes extends RouteBuilder {
                 .type(AddressRequestDTO.class)
                 .produces("application/json")
                 .outType(AddressDTO.class)
-                .to(DIRECT+SAVE_ADDRESS_ROUTE);
+                .to(DIRECT+SAVE_ADDRESS_ROUTE)
+
+                .post("/processing-history")
+                .type(ProcessingHistDTO.class)
+                .produces("application/json")
+                .outType(ProcessingHistDTO.class)
+                .to(DIRECT+SAVE_PROCESSING_HIST_ROUTE);
+
 
     }
 }
