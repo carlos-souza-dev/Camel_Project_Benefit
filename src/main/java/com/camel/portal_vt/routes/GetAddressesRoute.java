@@ -17,20 +17,21 @@ public class GetAddressesRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:getAddressesRoute")
-                .routeId("Route - Get Addresses")
-                .log("Chegou aqui no Addressess route")
-                .process(new RequestGetAddressesProcessor())
-                .process(new HeaderConfigJavaProcessor(HttpMethods.GET))
-                .log("Updated headers configs")
-                .doTry()
-                    .toD("http://localhost:5000/java-portal-vt/api/user/${exchangeProperty.pathParam}/addresses?bridgeEndpoint=true")
-                    .unmarshal().json(JsonLibrary.Jackson, AddressesDTO.class)
-                    .process(new ResponseGetAddressesProcessor())
-                .doCatch(Exception.class)
-                    .log("HTTP request error")
+        from("direct:"+GET_ADDRESSES_ROUTE)
+            .routeId("Route - Get Addresses")
+            .log("Chegou aqui no Addressess route")
+            .process(new RequestGetAddressesProcessor())
+            .process(new HeaderConfigJavaProcessor(HttpMethods.GET))
+            .log("Send to rest Api java-portal-vt/api")
+            .doTry()
+                .toD("http://localhost:5000/java-portal-vt/api/user/${exchangeProperty.pathParam}/addresses?bridgeEndpoint=true")
+                .unmarshal().json(JsonLibrary.Jackson, AddressesDTO.class)
+                .process(new ResponseGetAddressesProcessor())
+            .doCatch(Exception.class)
+                .log("Unhandled HTTP error occurred on route " + GET_ADDRESSES_ROUTE)
+                .setBody(simple("Error: ${exception}"))
                 .process(new BackEndErrorProcessor())
-                .endDoTry()
-                .end();
+            .endDoTry()
+            .end();
     }
 }

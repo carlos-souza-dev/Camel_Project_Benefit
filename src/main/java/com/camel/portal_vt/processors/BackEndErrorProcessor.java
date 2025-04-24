@@ -11,17 +11,36 @@ public class BackEndErrorProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        HttpOperationFailedException exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, HttpOperationFailedException.class);
-        String message = exception.getResponseHeaders().get("message") == null ? exception.getResponseBody() : exception.getResponseHeaders().get("message");
-        Integer responseCode = exception.getStatusCode();
+        HttpOperationFailedException httpOperationFailedException = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, HttpOperationFailedException.class);
+        Exception exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
 
-        ReturnStatusDTO returnStatus = new ReturnStatusDTO();
+        if(httpOperationFailedException != null){
+            String message = httpOperationFailedException.getResponseHeaders().get("message") == null ? httpOperationFailedException.getResponseBody() : httpOperationFailedException.getResponseHeaders().get("message");
+            Integer responseCode = httpOperationFailedException.getStatusCode();
 
-        returnStatus.setCode(responseCode);
-        returnStatus.setDescription(message);
-        returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
+            ReturnStatusDTO returnStatus = new ReturnStatusDTO();
 
-        exchange.getMessage().setBody(returnStatus);
-        exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseCode);
+            returnStatus.setCode(responseCode);
+            returnStatus.setDescription(message);
+            returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
+
+            exchange.getMessage().setBody(returnStatus);
+            exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseCode);
+        }
+
+        if (exception != null) {
+            String message = exception.getMessage() == null ? exception.getCause().getMessage() : exception.getMessage();
+            Integer responseCode = HttpStatus.BAD_REQUEST.value();
+
+            ReturnStatusDTO returnStatus = new ReturnStatusDTO();
+
+            returnStatus.setCode(responseCode);
+            returnStatus.setDescription(message);
+            returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
+
+            exchange.getMessage().setBody(returnStatus);
+            exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseCode);
+        }
+
     }
 }

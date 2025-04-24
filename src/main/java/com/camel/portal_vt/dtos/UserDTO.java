@@ -17,4 +17,10 @@ public class UserDTO {
     String dateAcceptCampaign;
 
     AddressesDTO addresses;
+
+    Boolean acceptRoute;
+
+    String dateAcceptRoute;
+
+    RoutesDTO routes;
 }

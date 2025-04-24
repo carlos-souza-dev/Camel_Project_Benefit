@@ -19,7 +19,7 @@ public class GetUserRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:getUserRoute")
+        from("direct:"+GET_USER_ROUTE)
             .routeId("Route - Get Data User")
             .process(new RequestGetUserProcessor())
 //            .marshal().json()
@@ -30,7 +30,7 @@ public class GetUserRoute extends RouteBuilder {
                 .unmarshal().json(JsonLibrary.Jackson, UserDTO.class)
                 .process(new ResponseGetUserProcessor())
             .doCatch(HttpOperationFailedException.class)
-                .log("Request HTTP error occurred.")
+                .log("Unhandled HTTP error occurred on route " + GET_USER_ROUTE)
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                 .process(new BackEndErrorProcessor())
             .endDoTry()

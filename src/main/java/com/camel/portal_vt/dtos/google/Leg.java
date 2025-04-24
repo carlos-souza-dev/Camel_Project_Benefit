@@ -9,4 +9,18 @@ public record Leg(
         Distance distance,
         Duration duration,
         List<Step> steps
-) {}
+) {
+    public List<TransitDetails> transitDetails(){
+
+        if (steps != null) {
+            List<TransitDetails> transitDetails = steps.stream()
+                    .filter(datail -> datail.transit_details() != null)
+                    .map(Step::transit_details)
+                    .toList();
+
+            return transitDetails;
+        }
+
+        return List.of();
+    }
+}

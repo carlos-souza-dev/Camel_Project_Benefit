@@ -16,19 +16,21 @@ public class AcceptCampaignRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:acceptCampaignRoute")
-                .routeId("Route - Accept Campaign")
-                .process(new RequestAcceptCampaignProcessor())
-                .marshal().json()
-                .process(new HeaderConfigJavaProcessor(HttpMethods.PUT))
-                .doTry()
-                    .toD("http://localhost:5000/java-portal-vt/api/user/${exchangeProperty.pathParam}?bridgeEndpoint=true")
-                    .process(new ResponseAcceptCampaignProcessor())
-                .doCatch(Exception.class)
-                    .log("Request HTTP error occurred.")
-                    .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-                    .process(new BackEndErrorProcessor())
-                .end();
+        from("direct:"+ACCEPT_CAMPAIGN_ROUTE)
+            .routeId("Route - Accept Campaign")
+            .process(new RequestAcceptCampaignProcessor())
+            .marshal().json()
+            .log("Send to rest Api java-portal-vt/api")
+            .process(new HeaderConfigJavaProcessor(HttpMethods.PUT))
+            .doTry()
+                .toD("http://localhost:5000/java-portal-vt/api/user/${exchangeProperty.pathParam}?bridgeEndpoint=true")
+                .process(new ResponseAcceptCampaignProcessor())
+            .doCatch(Exception.class)
+                .log("Unhandled HTTP error occurred on route " + ACCEPT_CAMPAIGN_ROUTE)
+                .setBody(simple("Error: ${exception}"))
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+                .process(new BackEndErrorProcessor())
+            .end();
 
     }
 }
