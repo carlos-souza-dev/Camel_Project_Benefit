@@ -16,7 +16,6 @@ import static com.camel.portal_vt.routes.GetUserRoute.GET_USER_ROUTE;
 import static com.camel.portal_vt.routes.RegisterUserRoute.REGISTER_ROUTE;
 import static com.camel.portal_vt.routes.SaveAddressRoute.SAVE_ADDRESS_ROUTE;
 import static com.camel.portal_vt.routes.SaveUserRequestRoute.SAVE_USER_ROUTE;
-import static com.camel.portal_vt.routes.TransportsInfoRoute.TRANSPORTS_INFO_ROUTE;
 import static com.camel.portal_vt.routes.UserAlreadyExistsRoute.USER_ALREADY_EXISTS_ROUTE;
 import static com.camel.portal_vt.routes.TransportsInfoRoute.INFO_ROUTES_ROUTE;
 import static com.camel.portal_vt.routes.AcceptRoutesRoute.ACCEPT_ROUTES_ROUTE;

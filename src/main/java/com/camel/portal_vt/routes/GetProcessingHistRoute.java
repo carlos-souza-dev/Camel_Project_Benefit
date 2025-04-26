@@ -1,5 +1,6 @@
 package com.camel.portal_vt.routes;
 
+import com.camel.portal_vt.dtos.PageDTO;
 import com.camel.portal_vt.dtos.ProcessingHistDTO;
 import com.camel.portal_vt.processors.BackEndErrorProcessor;
 import com.camel.portal_vt.processors.HeaderConfigJavaProcessor;
@@ -26,8 +27,8 @@ public class GetProcessingHistRoute extends RouteBuilder {
             .log("Send to rest Api java-portal-vt/api")
             .process(new HeaderConfigJavaProcessor(HttpMethods.GET))
             .doTry()
-                .toD("http://localhost:5000/java-portal-vt/api/user/processing-history/${exchangeProperty.pathParam}?bridgeEndpoint=true")
-                .unmarshal(new ListJacksonDataFormat(ProcessingHistDTO.class))
+                .toD("http://localhost:5000/java-portal-vt/api/user/processing-history/${exchangeProperty.pathParam}?page=0&size=2&sortFirts=date_created&sortLast=time_created&asc=true&bridgeEndpoint=true")
+                .unmarshal().json(JsonLibrary.Jackson, PageDTO.class)
                 .process(new ResponseGetProcessingHistProcessor())
             .doCatch(Exception.class)
                 .log("Unhandled HTTP error occurred on route " + GET_PROCESSING_HIST_ROUTE)

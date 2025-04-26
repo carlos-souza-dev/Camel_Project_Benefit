@@ -31,6 +31,5 @@ public class AuthenticationRoute extends RouteBuilder {
                 .process(new BackEndErrorProcessor())
                 .log("Authenticate error")
                 .end();
-            .end();
     }
 }
