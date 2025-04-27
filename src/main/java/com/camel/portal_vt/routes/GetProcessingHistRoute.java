@@ -27,7 +27,7 @@ public class GetProcessingHistRoute extends RouteBuilder {
             .log("Send to rest Api java-portal-vt/api")
             .process(new HeaderConfigJavaProcessor(HttpMethods.GET))
             .doTry()
-                .toD("http://localhost:5000/java-portal-vt/api/user/processing-history/${exchangeProperty.pathParam}?page=0&size=2&sortFirts=date_created&sortLast=time_created&asc=true&bridgeEndpoint=true")
+                .toD("http://localhost:5000/java-portal-vt/api/user/processing-history/${exchangeProperty.userName}?page={exchangeProperty.page}&size={exchangeProperty.size}&sortFirts={exchangeProperty.sortFirts}&sortLast={exchangeProperty.sortLast}&asc={exchangeProperty.asc}&bridgeEndpoint=true")
                 .unmarshal().json(JsonLibrary.Jackson, PageDTO.class)
                 .process(new ResponseGetProcessingHistProcessor())
             .doCatch(Exception.class)
