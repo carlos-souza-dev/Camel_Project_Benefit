@@ -13,27 +13,26 @@ public class BackEndErrorProcessor implements Processor {
 
         HttpOperationFailedException httpOperationFailedException = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, HttpOperationFailedException.class);
         Exception exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+        ReturnStatusDTO returnStatus = new ReturnStatusDTO();
 
         if(httpOperationFailedException != null){
             String message = httpOperationFailedException.getResponseHeaders().get("message") == null ? httpOperationFailedException.getResponseBody() : httpOperationFailedException.getResponseHeaders().get("message");
             Integer responseCode = httpOperationFailedException.getStatusCode();
 
-            ReturnStatusDTO returnStatus = new ReturnStatusDTO();
-
             returnStatus.setCode(responseCode);
             returnStatus.setDescription(message);
             returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
 
             exchange.getMessage().setBody(returnStatus);
             exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseCode);
+
+            exception = null;
         }
 
-        if (exception != null) {
+        if (exception != null ) {
             String message = exception.getMessage() == null ? exception.getCause().getMessage() : exception.getMessage();
             Integer responseCode = HttpStatus.BAD_REQUEST.value();
 
-            ReturnStatusDTO returnStatus = new ReturnStatusDTO();
-
             returnStatus.setCode(responseCode);
             returnStatus.setDescription(message);
             returnStatus.setHttpStatus(HttpStatus.valueOf(responseCode));
@@ -41,6 +40,5 @@ public class BackEndErrorProcessor implements Processor {
             exchange.getMessage().setBody(returnStatus);
             exchange.getMessage().setHeader(Exchange.HTTP_RESPONSE_CODE, responseCode);
         }
-
     }
 }
