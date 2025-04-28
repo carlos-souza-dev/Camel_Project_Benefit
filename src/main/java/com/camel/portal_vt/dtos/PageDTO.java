@@ -3,10 +3,10 @@ package com.camel.portal_vt.dtos;
 import java.util.List;
 
 public record PageDTO<T>(
-        Integer totalPage,
+        Integer total,
         Long totalItems,
         List<T> content,
-        int pageNumber,
-        Integer pageSize
+        int number,
+        Integer size
 ) {
 }
