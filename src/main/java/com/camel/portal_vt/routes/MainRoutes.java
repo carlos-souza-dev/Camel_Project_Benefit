@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.camel.portal_vt.routes.AcceptCampaignRoute.ACCEPT_CAMPAIGN_ROUTE;
+import static com.camel.portal_vt.routes.CancelBenefitRoute.CANCEL_BENEFIT_ROUTE;
 import static com.camel.portal_vt.routes.CancelSolicitationRoute.CANCEL_SOLICITATION_ROUTE;
 import static com.camel.portal_vt.routes.GetAddressesRoute.GET_ADDRESSES_ROUTE;
 import static com.camel.portal_vt.routes.AuthenticationRoute.AUTHENTICATION_ROUTE;
@@ -109,7 +110,12 @@ public class MainRoutes extends RouteBuilder {
                 .get("/processing-history/{userName}")
                 .produces("application/json")
                 .outType(List.class)
-                .to(DIRECT+GET_PROCESSING_HIST_ROUTE);
+                .to(DIRECT+GET_PROCESSING_HIST_ROUTE)
+
+                .get("/cancel-benefit/{userName}")
+                .produces("application/json")
+                .outType(UserDTO.class)
+                .to(DIRECT+CANCEL_BENEFIT_ROUTE);
 
     }
 }
