@@ -45,7 +45,6 @@ public class MainRoutes extends RouteBuilder {
                 .bindingMode(RestBindingMode.json);  // Ativa a resposta para JSON
 //                .dataFormatProperty("prettyPrint", "true");
 
-        String GetUserRoute;
         rest("/user")
                 .get("/{userName}")
                 .produces("application/json")
